@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="datepicker-zh-TW.js"></script>
+
+    <title>產品購買</title>
+
+    <style>
+        #navbar {
+            background-color: royalblue;
+            /* choose another one */
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 100px;
+            display: block;
+            transition: top 0.3s;
+        }
+
+        #navbar a {
+            float: left;
+            display: block;
+            line-height: 70px;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 15px;
+            text-decoration: none;
+            font-size: 25px;
+
+        }
+
+
+
+        #navbar a:hover {
+            background-color: pink;
+            color: black;
+        }
+
+        #headerRight {
+            float: right
+        }
+
+        body {
+            margin: 0;
+
+        }
+    </style>
+    <!-- 頁首圖片 -->
+    <style>
+        #pagephoto {
+            max-height: 450px;
+            overflow: hidden;
+        }
+    </style>
+
+
+    <!-- 產品卡 -->
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            max-width: 200px;
+            margin: 0px 10px;
+            text-align: center;
+            font-family: arial;
+        }
+
+        .price {
+            color: red;
+            font-size: 22px;
+        }
+
+        .card button {
+            border: none;
+            outline: 0;
+            padding: 12px;
+            color: white;
+            background-color: #0059b3;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+        }
+
+        .card button:hover {
+            background-color: pink;
+            color: black;
+        }
+
+        #cardcontainer {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+    <!--購物車表格-->
+    <style>
+        table {
+            width: 50%;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            text-align: left;
+            border-top: 2px solid gray;
+            border-bottom: 2px solid gray;
+            font-size: 20px;
+            height: 60px;
+
+        }
+
+        th {
+            background-color: lightblue;
+
+        }
+
+        #amount {
+            display: block;
+            float: right;
+            text-align: left;
+            padding-right: 500px;
+        }
+
+        #amount button {
+            color: white;
+            background-color: #0059b3;
+            font-size: 30px;
+            width: 200px;
+
+        }
+
+        #amount button:hover {
+            background-color: pink;
+            color: black;
+            cursor: pointer;
+        }
+    </style>
+
+    <style>
+        #myBtn {
+            display: none;
+            position: fixed;
+            bottom: 40px;
+            right: 30px;
+            z-index: 99;
+            font-size: 36px;
+            border: none;
+            outline: none;
+            background-color: #0059b3;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 50%;
+
+        }
+
+        #myBtn:hover {
+            background-color: pink;
+            color: black;
+
+        }
+    </style>
+
+    <!-- 登入表 -->
+    <style>
+        .form-popup {
+            display: none;
+            position: fixed;
+            top: 100px;
+            right: 15px;
+            border: 3px solid #0059b3;
+            z-index: 9;
+            font-size: 20px;
+        }
+
+        .form-container {
+            width: 350px;
+            height: 500px;
+            padding: 10px;
+            background-color: white;
+            opacity: 0.7;
+        }
+
+        .form-container input[type=text],
+        .form-container input[type=password] {
+            width: 90%;
+            padding: 15px;
+            margin: 5px 10px 22px 0;
+            border: 2px solid black;
+        }
+
+        .form-container .btn {
+            background-color: #0059b3;
+            color: white;
+            padding: 16px 20px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            font-size: 20px;
+
+        }
+
+        .form-container .cancel {
+            background-color: gray;
+
+        }
+
+        .form-container .btn:hover {
+            background-color: pink;
+            color: black;
+            opacity: 1;
+        }
+    </style>
+
+
+
+
+</head>
+
+<body>
+    <div id="navbar">
+        <div>
+            <a style="padding: 0; padding-bottom: 6px; "href="#default" class="logo"><img src="./pic/hydrangea.png" style="height: 70px;position: relative; top: 15px;"><span style="position: relative; bottom: 15px;">Peter's Garden</span></a>
+        </div>
+        <div id="headerRight">
+            <a href="./Home.html">首頁</a>
+            <a href="./Products.html">產品購買</a>
+            <a href="./Tutorial.html">種植教學</a>
+            <a href="./Member.html">會員註冊</a>
+            <a href="#login" onclick="openForm()">登入</a>
+        </div>
+    </div>
+
+    <div id="pagephoto"><img src="./pic/photo for products page.png" alt=""></div>
+    <br><br>
+    <div>
+        <h1 style="color: #0059b3; text-align: center;">產品購買</h1>
+    </div>
+    <br><br>
+    <div id="cardcontainer">
+        <div class="card">
+            <img src="./pic/pot_the original.png" alt="The Original" style="width:100%">
+            <h3>The Original</h3>
+            <p class="price">NT$ <span>500</span></p>
+            <p>藍色。球形。</p>
+            <p><button class="buy">Buy</button></p>
+        </div>
+
+        <div class="card">
+            <img src="./pic/pot_the bride.png" alt="The Bride" style="width:100%">
+            <h3>The Bride</h3>
+            <p class="price">NT$ <span>510</span></p>
+            <p>白色。球形。</p>
+            <p><button class="buy">Buy</button></p>
+        </div>
+
+        <div class="card">
+            <img src="./pic/pot_twist n shout.png" alt="Twist-n-Shout" style="width:100%">
+            <h3>Twist-n-Shout</h3>
+            <p class="price">NT$ <span>520</span></p>
+            <p>藍色。額開形。</p>
+            <p><button class="buy">Buy</button></p>
+        </div>
+
+        <div class="card">
+            <img src="./pic/pot_bloomstar.png" alt="BloomStar" style="width:100%">
+            <h3>BloomStar</h3>
+            <p class="price">NT$ <span>530</span></p>
+            <p>藍色。球形。</p>
+            <p><button class="buy">Buy</button></p>
+        </div>
+
+        <div class="card">
+            <img src="./pic/pot_summer love.png" alt="Summer Love" style="width:100%">
+            <h3>Summer Love</h3>
+            <p class="price">NT$ <span>540</span></p>
+            <p>紅色。球形。</p>
+            <p>
+                <button class="buy">Buy</button>
+            </p>
+        </div>
+
+        <div class="card">
+            <img src="./pic/pot_pop star.png" alt="Pop Star" style="width:100%">
+            <h3>Pop Star</h3>
+            <p class="price">NT$ <span>550</span></p>
+            <p>藍色。額開形。</p>
+            <p><button class="buy">Buy</button></p>
+        </div>
+    </div>
+    <br><br><br><br>
+    <div>
+        <h1 style="color: #0059b3; text-align: center;">購物車</h1>
+    </div>
+    <br><br><br><br>
+    <div>
+        <table id="cart">
+            <tr>
+                <th>商品名稱</th>
+                <th>商品單價</th>
+                <th>數量</th>
+                <th>小計</th>
+                <th>操作</th>
+            </tr>
+
+        </table>
+        <br><br>
+        <div id="amount">
+            <p style="font-size: 30px;">結帳金額: NT$<span id="total">0</span></p>
+            <button onclick="checkout()">結帳</button>
+        </div>
+
+    </div>
+
+    <!-- 回到最上面button -->
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+
+    <script>
+        function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+    </script>
+
+    <!-- Navbar收合JS -->
+    <script>
+        var prevScrollpos = window.pageYOffset;
+        var mybutton = document.getElementById("myBtn"); // add this line
+        window.onscroll = function () {
+            var currentScrollPos = window.pageYOffset;
+            if (prevScrollpos > currentScrollPos) {
+                document.getElementById("navbar").style.top = "0";
+            } else {
+                document.getElementById("navbar").style.top = "-100px";
+            }
+            prevScrollpos = currentScrollPos;
+
+            // 回到最上面 add
+            if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+    </script>
+
+    <!-- 抓購物車資料 -->
+    <script>
+        let pid = 1
+        let total = 0
+
+        function updateTotal() {
+            total = 0; // 更新總金額前先歸零
+            $('#cart tr').each(function () {
+                let subTotal = parseInt($(this).find('td').eq(3).text());
+                total += isNaN(subTotal) ? 0 : subTotal;
+            });
+            $("#total").text(total);
+        }
+
+        $(".buy").click(function () {
+            $('table').append(`
+           <tr>
+               <td>${$(this).parent().parent().children().eq(1).text()}</td>
+               <td>${$(this).parent().parent().children().eq(2).children().text()}</td>                             
+               <td>
+                <button onclick="quantityHandle(this, ${pid}, 1)">+</button>
+                <span>${pid}</span>
+                <button onclick="quantityHandle(this, ${pid}, -1)">-</button>
+                </td>
+               <td>
+                ${parseInt($(this).parent().parent().children().eq(2).children().text()) * pid}
+                </td>
+               <td>                   
+                   <button onclick="delHandle(this, ${pid})">刪除</button>
+               </td>
+           </tr>
+       `)
+
+            updateTotal();
+
+        });
+
+        function quantityHandle(sender, product, value) {
+            let field = $(sender)
+                .parent()
+                .parent()
+                .children()
+                .eq(2)
+                .children()
+                .eq(1)
+                .text();
+
+
+
+            let text = parseInt(field) + value;
+
+            if (text >= 0) {
+                let unitPrice = parseInt($(sender).parent().parent().children().eq(1).text());
+                let subTotal = unitPrice * text;
+
+                $(sender)
+                    .parent()
+                    .parent()
+                    .children()
+                    .eq(2)
+                    .children()
+                    .eq(1)
+                    .text(text);
+
+                $(sender)
+                    .parent()
+                    .parent()
+                    .children()
+                    .eq(3)
+                    .text(subTotal);
+
+                updateTotal();
+
+
+            }
+        }
+
+
+
+        function delHandle(sender, product) {
+            if (confirm("確定刪除嗎？")) {
+                $(sender)
+                    .parent()
+                    .parent()
+                    .remove();
+
+                updateTotal();
+            } else { }
+        }
+
+
+        function checkout() {
+            alert("感謝您的購買！");
+        }
+    </script>
+
+    <!-- 登入表格(跳出) -->
+    <div class="form-popup" id="myForm">
+        <form action="/action_page.php" class="form-container">
+            <h1 style="color: #0059b3;">登入</h1>
+
+            <label for="email"><b>Email</b></label>
+            <input type="text" placeholder="請輸入Email" name="email" required>
+
+            <label for="psw"><b>密碼</b></label>
+            <input type="password" placeholder="請輸入密碼" name="psw" required>
+
+            <button type="submit" class="btn">登入</button>
+            <button type="button" class="btn cancel" onclick="closeForm()">關閉</button>
+
+            <p>不是會員? <a href="">註冊</a></p>
+        </form>
+    </div>
+
+    <script>
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+        }
+    </script>
+
+
+
+
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+</body>
+
+</html>
